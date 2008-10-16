@@ -29,6 +29,8 @@ def main():
     parser = OptionParser()
     parser.add_option('-W', '--width',  type='int', default=300)
     parser.add_option('-H', '--height', type='int', default=300)
+    parser.add_option('-f', '--z-min',  type='complex', default=-2-2j)
+    parser.add_option('-t', '--z-max',  type='complex', default=+2+2j)
     (options, args) = parser.parse_args()
 
     root = Tk()
@@ -36,12 +38,13 @@ def main():
     l.pack()
 
     W, H = options.width, options.height
+    z_min, z_max = options.z_min, options.z_max
+
     im = Image.new('P', (W, H), 0)
     im.putpalette([randrange(256) for n in range(3 * 256)])
     p = im.load()
     
-    vertex = 2+2j
-    z = z_converter(W, H, -vertex, +vertex)
+    z = z_converter(W, H, z_min, z_max)
     for x in range(W):
         for y in range(H):
             p[x, y] = pixel(z(x, y))
