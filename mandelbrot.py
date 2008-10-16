@@ -16,6 +16,13 @@ def pixel(c, max_iterations=256):
             break
     return i
 
+def z_converter(img_width, img_height, z_min=-2-2j, z_max=2+2j):
+    z_diff = z_max - z_min
+    scale_re = z_diff.real / img_width
+    scale_im = z_diff.imag / img_height
+    def z(x, y):
+        return z_min + complex(x * scale_re, y * scale_im)
+    return z
 
 def main():
     root = Tk()
@@ -26,12 +33,12 @@ def main():
     im = Image.new('P', (W, H), 0)
     im.putpalette([randrange(256) for n in range(3 * 256)])
     p = im.load()
-
+    
+    vertex = 1e-3 + 1e-3j
+    z = z_converter(W, H, -vertex, +vertex)
     for x in range(W):
         for y in range(H):
-            z = 2 * complex(x/W - 0.5, y/W - 0.5)
-            c = pixel(z)
-            p[x, y] = c
+            p[x, y] = pixel(z(x, y))
         if x % 10 == 0:
             print "Columna %d" % x
     l.pim = PhotoImage(im)
