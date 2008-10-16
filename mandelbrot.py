@@ -4,7 +4,6 @@ from __future__ import division
 from Tkinter import Tk, Label
 import Image
 from ImageTk import PhotoImage
-from time import sleep
 from random import randrange
 range = xrange
 
