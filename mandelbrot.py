@@ -25,11 +25,17 @@ def z_converter(img_width, img_height, z_min=-2-2j, z_max=2+2j):
     return z
 
 def main():
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option('-W', '--width',  type='int', default=300)
+    parser.add_option('-H', '--height', type='int', default=300)
+    (options, args) = parser.parse_args()
+
     root = Tk()
     l = Label(root)
     l.pack()
 
-    W, H = 300, 300
+    W, H = options.width, options.height
     im = Image.new('P', (W, H), 0)
     im.putpalette([randrange(256) for n in range(3 * 256)])
     p = im.load()
