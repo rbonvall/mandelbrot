@@ -34,7 +34,7 @@ def main():
     im.putpalette([randrange(256) for n in range(3 * 256)])
     p = im.load()
     
-    vertex = 1e-3 + 1e-3j
+    vertex = 2+2j
     z = z_converter(W, H, -vertex, +vertex)
     for x in range(W):
         for y in range(H):
