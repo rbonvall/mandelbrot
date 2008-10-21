@@ -45,13 +45,16 @@ def main():
     p = im.load()
     
     z = z_converter(W, H, z_min, z_max)
-    for x in range(W):
-        for y in range(H):
-            p[x, y] = pixel(z(x, y))
-        if x % 10 == 0:
-            print "Columna %d" % x
     l.pim = PhotoImage(im)
     l.config(image=l.pim)
+
+    def draw(event):
+        for x in range(W):
+            for y in range(H):
+                p[x, y] = pixel(z(x, y))
+        l.pim = PhotoImage(im.copy())
+        l.config(image=l.pim)
+    root.bind('<FocusIn>', draw)
 
     root.mainloop()
 
