@@ -29,8 +29,8 @@ def main():
     parser = OptionParser()
     parser.add_option('-W', '--width',  type='int', default=300)
     parser.add_option('-H', '--height', type='int', default=300)
-    parser.add_option('-f', '--z-min',  type='complex', default=-2-2j)
-    parser.add_option('-t', '--z-max',  type='complex', default=+2+2j)
+    parser.add_option('-c', '--center', type='complex', default=0+0j)
+    parser.add_option('-s', '--side',   type='float', default=4)
     (options, args) = parser.parse_args()
 
     root = Tk()
@@ -38,7 +38,8 @@ def main():
     l.pack()
 
     W, H = options.width, options.height
-    z_min, z_max = options.z_min, options.z_max
+    offset = complex(options.side, options.side) / 2
+    z_min, z_max = options.center - offset, options.center + offset
 
     im = Image.new('P', (W, H), 0)
     im.putpalette([randrange(256) for n in range(3 * 256)])
