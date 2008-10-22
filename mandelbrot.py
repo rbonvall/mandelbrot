@@ -48,14 +48,20 @@ def main():
     l.pim = PhotoImage(im)
     l.config(image=l.pim)
 
-    def draw(event):
-        for x in range(W):
-            for y in range(H):
-                p[x, y] = pixel(z(x, y))
-        l.pim = PhotoImage(im.copy())
+    def paint_column(x):
+        if x % 10 == 0: print "Column %d" % x
+        for y in range(H):
+            p[x, y] = pixel(z(x, y))
+        l.pim = PhotoImage(im)
         l.config(image=l.pim)
-    root.bind('<FocusIn>', draw)
 
+        if x + 1 < W:
+            root.after(1, paint_column, x + 1)
+
+    def start(event):
+        root.after(1, paint_column, 0)
+
+    root.bind('<FocusIn>', start)
     root.mainloop()
 
 if __name__ == '__main__':
