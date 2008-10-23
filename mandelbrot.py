@@ -16,12 +16,9 @@ def pixel(c, max_iterations=256):
             break
     return i
 
-def z_converter(img_width, img_height, z_min=-2-2j, z_max=2+2j):
-    z_diff = z_max - z_min
-    scale_re = z_diff.real / img_width
-    scale_im = z_diff.imag / img_height
+def z_converter(img_width, img_height, center=0+0j, side=4.0):
     def z(x, y):
-        return z_min + complex(x * scale_re, y * scale_im)
+        return center + side * complex(x/img_width - 0.5, y/img_height - 0.5)
     return z
 
 def main():
@@ -38,14 +35,13 @@ def main():
     l.pack()
 
     W, H = options.width, options.height
-    offset = complex(options.side, options.side) / 2
-    z_min, z_max = options.center - offset, options.center + offset
+    center, side = options.center, options.side
 
     im = Image.new('P', (W, H), 0)
     im.putpalette([randrange(256) for n in range(3 * 256)])
     p = im.load()
     
-    z = z_converter(W, H, z_min, z_max)
+    z = z_converter(W, H, center, side)
     l.pim = PhotoImage(im)
     l.config(image=l.pim)
 
